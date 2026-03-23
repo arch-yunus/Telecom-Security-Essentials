@@ -37,11 +37,21 @@ GTP, mobil verinin paket çekirdek ağda taşınmasını sağlar.
 
 ---
 
-## 🤖 3. IoT & M2M Güvenliği (The New Frontier)
+## 🤖 3. İleri Düzey Teknolojiler (O-RAN & NTN)
 
-Nesnelerin İnterneti (IoT), düşük güç tüketimli (LPWA) ağlar üzerinden telekom altyapısına bağlanır.
-*   **NB-IoT & LTE-M:** Bu cihazlar genellikle zayıf kimlik doğrulama mekanizmalarına sahiptir.
-*   **M2M Signaling Storms:** Milyonlarca IoT cihazının aynı anda sinyal vermesiyle (SYN flood benzeri) çekirdek şebeke (MME/HSS) çökertilebilir.
+### 🗼 O-RAN (Open RAN) Güvenliği
+Open RAN, radyo erişim şebekesini açık arayüzlerle modüler hale getirir.
+*   **RIC (RAN Intelligent Controller):** Ağın beynidir. xApps ve rApps uygulama zafiyetleri ağın performansını veya güvenliğini sabote edebilir.
+*   **Interface Security:** E2, A1 ve O1 arayüzlerinin TLS ile korunmaması, saldırganın radyo kaynaklarını manipüle etmesine yol açar.
+
+### 🛰️ 5G NTN (Non-Terrestrial Networks)
+Uydu tabanlı 5G haberleşmesi, yeni fiziksel saldırı yüzeyleri açar.
+*   **Jamming & Spoofing:** Uydu sinyallerinin karıştırılması veya sahte yer istasyonları üzerinden trafiğin ele geçirilmesi.
+*   **Mobility Management:** Uyduların hızlı hareketi nedeniyle anahtarlama (handover) süreçlerindeki güvenlik açıkları.
+
+### ⚛️ Post-Quantum Cryptography (PQC)
+Telekom ağları, kuantum bilgisayarların mevcut şifreleme yöntemlerini (RSA/ECC) kırma riskine karşı PQC'ye geçmektedir.
+*   **Lattice-based Crypto:** 5G AKA ve sinyalleşme güvenliğinde kuantum dayanıklı algoritmaların (Kyber, Dilithium) entegrasyonu.
 
 ---
 
@@ -60,18 +70,9 @@ graph TD
     F --> I[Action: Revenue Leakage]
 ```
 
-### 💸 Interconnect Fraud (IF)
-*   **SIM Box Fraud:** Uluslararası aramaları yerel bir SIM üzerinden sonlandırarak ara bağlantı ücretlerinden kaçınma.
-*   **Bypass Fraud (Grey Routes):** Meşru olmayan sinyalleşme yolları üzerinden SMS veya ses trafiği geçirme.
-
 ---
 
 ## 🛡️ 5. Savunma Stratejileri & Uyumluluk
-
-### 🚧 Teknik Katmanlar
-1.  **Signaling Firewall (DAA/STP FW):** Mesajların tipine ve kaynağına göre (Cat-1/2/3) filtrelenmesi.
-2.  **Home Routing:** Gerçek IMSI ve lokasyonun dış dünyaya kapatılması.
-3.  **Velocity Check:** Coğrafi olarak imkansız hızların kontrol edilmesi.
 
 ### 📋 Global Standartlar Matrisi
 | Kurum | Standart | Fokus |
@@ -79,7 +80,7 @@ graph TD
 | **GSMA** | FS.11 / FS.19 | SS7 & Diameter Security Monitoring |
 | **3GPP** | TS 33.501 | 5G Security Architecture |
 | **NIST** | SP 800-187 | 4G LTE Security Guide |
-| **ENISA** | Signaling Security | EU Telecom Infrastructure Guidelines |
+| **O-RAN Alliance** | WG11 | Open RAN Security Specs |
 
 ---
 
