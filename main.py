@@ -47,7 +47,10 @@ def main():
     # 5. Run Execution
     scan_results = orchestrator.run_all(simulation_data)
     
-    # 6. Display Findings
+    # 6. Generate Persistent Reports
+    orchestrator.generate_reports(scan_results)
+    
+    # 7. Display Findings
     print("\n[!] SECURITY FINDINGS REPORT:")
     print("-" * 30)
     

@@ -1,0 +1,52 @@
+{
+    "version": "1.1",
+    "scan_time": "2026-03-23 16:58:35.523785",
+    "protocols_scanned": [
+        "SS7",
+        "Diameter",
+        "GTP"
+    ],
+    "findings": {
+        "SS7": [
+            {
+                "id": "SS7-VULN-LOC-001",
+                "name": "Location Tracking (PSI)",
+                "severity": "CRITICAL",
+                "operation": "ProvideSubscriberInfo",
+                "description": "Detected MAP ProvideSubscriberInfo operation, used for precise location retrieval."
+            },
+            {
+                "id": "SS7-VULN-LOC-002",
+                "name": "Location Tracking (ATI)",
+                "severity": "CRITICAL",
+                "operation": "AnyTimeInterrogation",
+                "description": "Detected MAP AnyTimeInterrogation operation, used for getting subscriber state and location."
+            }
+        ],
+        "Diameter": [
+            {
+                "id": "DIA-VULN-ROAM-001",
+                "name": "Roaming Profile Theft",
+                "severity": "HIGH",
+                "operation": "Update-Location-Request",
+                "description": "S6a ULR detected. Potential unauthorized subscriber profile update in roaming."
+            }
+        ],
+        "GTP": [
+            {
+                "id": "GTP-VULN-TUNNEL-001",
+                "name": "User Plane Hijacking",
+                "severity": "CRITICAL",
+                "operation": "Create-Session-Request",
+                "description": "Detected GTP-C Create Session Request. Potential unauthorized tunnel establishment."
+            },
+            {
+                "id": "GTP-VULN-TEID-001",
+                "name": "TEID Exhaustion / DoS",
+                "severity": "LOW",
+                "operation": "Echo-Request",
+                "description": "Abnormal GTP Echo frequency detected, potential resource exhaustion."
+            }
+        ]
+    }
+}

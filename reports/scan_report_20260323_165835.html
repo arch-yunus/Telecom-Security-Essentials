@@ -1,0 +1,64 @@
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Telecom Security Essentials - Scan Report</title>
+            <style>
+                body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f7f6; color: #333; margin: 40px; }
+                .header { background: #2c3e50; color: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+                .protocol-section { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 20px; }
+                .finding { border-left: 5px solid #e74c3c; padding: 10px; margin: 10px 0; background: #fdf2f2; }
+                .finding.HIGH { border-left-color: #e67e22; background: #fff5e6; }
+                .finding.MEDIUM { border-left-color: #f1c40f; background: #fef9e7; }
+                .finding.LOW { border-left-color: #3498db; background: #ebf5fb; }
+                .severity { font-weight: bold; padding: 2px 6px; border-radius: 4px; color: white; }
+                .CRITICAL { background: #e74c3c; }
+                .HIGH { background: #e67e22; }
+                .MEDIUM { background: #f1c40f; }
+                .LOW { background: #3498db; }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <h1>Telecom Security Scan Report</h1>
+                <p>Generated on: 2026-03-23 16:58:35.533807</p>
+            </div>
+            <div class='protocol-section'><h2>Protocol: SS7</h2>
+                    <div class='finding CRITICAL'>
+                        <span class='severity CRITICAL'>CRITICAL</span>
+                        <strong>SS7-VULN-LOC-001 - Location Tracking (PSI)</strong>
+                        <p><strong>Operation:</strong> ProvideSubscriberInfo</p>
+                        <p><strong>Description:</strong> Detected MAP ProvideSubscriberInfo operation, used for precise location retrieval.</p>
+                    </div>
+                    
+                    <div class='finding CRITICAL'>
+                        <span class='severity CRITICAL'>CRITICAL</span>
+                        <strong>SS7-VULN-LOC-002 - Location Tracking (ATI)</strong>
+                        <p><strong>Operation:</strong> AnyTimeInterrogation</p>
+                        <p><strong>Description:</strong> Detected MAP AnyTimeInterrogation operation, used for getting subscriber state and location.</p>
+                    </div>
+                    </div><div class='protocol-section'><h2>Protocol: Diameter</h2>
+                    <div class='finding HIGH'>
+                        <span class='severity HIGH'>HIGH</span>
+                        <strong>DIA-VULN-ROAM-001 - Roaming Profile Theft</strong>
+                        <p><strong>Operation:</strong> Update-Location-Request</p>
+                        <p><strong>Description:</strong> S6a ULR detected. Potential unauthorized subscriber profile update in roaming.</p>
+                    </div>
+                    </div><div class='protocol-section'><h2>Protocol: GTP</h2>
+                    <div class='finding CRITICAL'>
+                        <span class='severity CRITICAL'>CRITICAL</span>
+                        <strong>GTP-VULN-TUNNEL-001 - User Plane Hijacking</strong>
+                        <p><strong>Operation:</strong> Create-Session-Request</p>
+                        <p><strong>Description:</strong> Detected GTP-C Create Session Request. Potential unauthorized tunnel establishment.</p>
+                    </div>
+                    
+                    <div class='finding LOW'>
+                        <span class='severity LOW'>LOW</span>
+                        <strong>GTP-VULN-TEID-001 - TEID Exhaustion / DoS</strong>
+                        <p><strong>Operation:</strong> Echo-Request</p>
+                        <p><strong>Description:</strong> Abnormal GTP Echo frequency detected, potential resource exhaustion.</p>
+                    </div>
+                    </div>
+        </body>
+        </html>
+        
