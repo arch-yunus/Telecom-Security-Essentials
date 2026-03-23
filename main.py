@@ -5,35 +5,49 @@ import os
 sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
 
 from engine.orchestrator import Orchestrator
+from engine.loader import SignatureLoader
 from engine.ss7 import SS7Analyzer
+from engine.diameter import DiameterAnalyzer
+from engine.gtp import GTPAnalyzer
 
 def main():
     print("""
     ==================================================
-    📡 TELECOM SECURITY ESSENTIALS - CORE ENGINE v1.0
+    TELECOM SECURITY ESSENTIALS - CORE ENGINE v1.1
     ==================================================
     """)
     
-    # 1. Initialize Orchestrator
+    # 1. Initialize Signature Loader
+    loader = SignatureLoader()
+    
+    # 2. Initialize Orchestrator
     orchestrator = Orchestrator()
     
-    # 2. Register Analyzers
-    orchestrator.register_analyzer(SS7Analyzer())
+    # 3. Register Analyzers with shared loader
+    orchestrator.register_analyzer(SS7Analyzer(loader))
+    orchestrator.register_analyzer(DiameterAnalyzer(loader))
+    orchestrator.register_analyzer(GTPAnalyzer(loader))
     
-    # 3. Simulate Capture Data (SS7, Diameter, etc.)
+    # 4. Simulate Multi-Protocol Capture Data
     simulation_data = {
         "SS7": [
             "ProvideSubscriberInfo",
-            "UpdateLocation",
-            "MTP-Transfer-Confirmed"
+            "AnyTimeInterrogation"
         ],
-        "Diameter": [] # Placeholder for next phase
+        "Diameter": [
+            "Update-Location-Request",
+            "Device-Watchdog-Request"
+        ],
+        "GTP": [
+            "Create-Session-Request",
+            "Echo-Request"
+        ]
     }
     
-    # 4. Run Execution
+    # 5. Run Execution
     scan_results = orchestrator.run_all(simulation_data)
     
-    # 5. Display Findings
+    # 6. Display Findings
     print("\n[!] SECURITY FINDINGS REPORT:")
     print("-" * 30)
     
@@ -44,7 +58,7 @@ def main():
             
         print(f"[{protocol}] Found {len(findings)} issues:")
         for idx, finding in enumerate(findings, 1):
-            print(f"  {idx}. {finding['severity']} - {finding['id']}")
+            print(f"  {idx}. {finding['severity']} - {finding['id']} ({finding['name']})")
             print(f"     Op: {finding['operation']}")
             print(f"     Desc: {finding['description']}\n")
 

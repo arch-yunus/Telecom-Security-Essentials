@@ -1,0 +1,48 @@
+# Telecom Security Essentials - Threat Signatures
+# This file decouples threat intelligence from the core engine.
+
+signatures:
+  SS7:
+    - id: "SS7-VULN-LOC-001"
+      name: "Location Tracking (PSI)"
+      pattern: "ProvideSubscriberInfo"
+      severity: "CRITICAL"
+      description: "Detected MAP ProvideSubscriberInfo operation, used for precise location retrieval."
+
+    - id: "SS7-VULN-LOC-002"
+      name: "Location Tracking (ATI)"
+      pattern: "AnyTimeInterrogation"
+      severity: "CRITICAL"
+      description: "Detected MAP AnyTimeInterrogation operation, used for getting subscriber state and location."
+
+    - id: "SS7-VULN-INTERCEPT-001"
+      name: "Call Interception (UL)"
+      pattern: "UpdateLocation"
+      severity: "HIGH"
+      description: "Detected MAP UpdateLocation, potential profile hijacking or interception risk."
+
+  Diameter:
+    - id: "DIA-VULN-ROAM-001"
+      name: "Roaming Profile Theft"
+      pattern: "Update-Location-Request"
+      severity: "HIGH"
+      description: "S6a ULR detected. Potential unauthorized subscriber profile update in roaming."
+
+    - id: "DIA-VULN-AUTH-001"
+      name: "Authentication Information Disclosure"
+      pattern: "Authentication-Information-Request"
+      severity: "MEDIUM"
+      description: "S6a AIR detected. Could be used to harvest authentication vectors."
+
+  GTP:
+    - id: "GTP-VULN-TUNNEL-001"
+      name: "User Plane Hijacking"
+      pattern: "Create-Session-Request"
+      severity: "CRITICAL"
+      description: "Detected GTP-C Create Session Request. Potential unauthorized tunnel establishment."
+
+    - id: "GTP-VULN-TEID-001"
+      name: "TEID Exhaustion / DoS"
+      pattern: "Echo-Request"
+      severity: "LOW"
+      description: "Abnormal GTP Echo frequency detected, potential resource exhaustion."

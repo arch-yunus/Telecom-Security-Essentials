@@ -1,15 +1,14 @@
 import re
 from .base import BaseAnalyzer
 
-class SS7Analyzer(BaseAnalyzer):
+class DiameterAnalyzer(BaseAnalyzer):
     """
-    Dynamic SS7 Security Analyzer.
-    Loads threat patterns from the central signature repository.
+    Security Analyzer for Diameter (LTE/4G) protocols.
     """
     
     @property
     def protocol_name(self) -> str:
-        return "SS7"
+        return "Diameter"
 
     def __init__(self, loader):
         self.loader = loader
