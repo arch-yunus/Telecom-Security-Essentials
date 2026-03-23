@@ -18,45 +18,72 @@ Mobil ağlar, her nesilde güvenlik mimarisini kökten değiştirmiştir. Aşağ
 
 ---
 
-## 🔬 2. Teknik Derinlemesine Bakış (Deep-Dive)
+## 🔬 2. Teknik Derinlemesine Bakış (Core Protocols)
 
-### 📱 SS7 & Diameter (Legacy & Modern Signaling)
+### 📱 SS7 & Diameter (Signaling Plane)
 Geleneksel sinyalleşme ağları, operatörler arası güven ilişkisine dayanır.
 *   **Location Tracking:** `ProvideSubscriberInfo` (PSI) veya `AnyTimeInterrogation` (ATI) mesajlarıyla hücre bazlı konum tespiti.
 *   **Interception:** `UpdateLocation` manipülasyonu ile kurbanın profilinin saldırganın kontrolündeki bir santrale (Pseudo-MSC) çekilmesi.
 
-### ⚡ 5G SBA (Service Based Architecture) - Geleceğin Güvenliği
-5G ile birlikte telekom dünyası "IT-leşmiş" ve servis tabanlı bir mimariye geçmiştir.
+### ⚡ 5G SBA (Service Based Architecture)
+5G ile telekom dünyası servis tabanlı bir mimariye (SBA) geçmiştir.
 *   **SBI (Service Based Interface):** Protokol olarak HTTP/2 ve veri formatı olarak JSON kullanılır. Bu, telekom ağlarını geleneksel Web saldırılarına (Injection, Broken Auth) açık hale getirir.
 *   **SEPP (Security Edge Protection Proxy):** Operatörler arası (roaming) trafiği uçtan uca şifreleyen ve filtreleyen en kritik güvenlik bileşenidir.
-*   **Network Slicing Security:** Farklı dilimler (slices) arası izolasyon hataları, bir dilimdeki saldırganın diğerine (örn. Kritik Altyapı dilimi) sızmasına neden olabilir.
+
+### 🌐 GTP (Data Plane & Tunneling)
+GTP, mobil verinin paket çekirdek ağda taşınmasını sağlar.
+*   **GTP-C (Control):** Tünel yönetimi. Sahte `Create Session Request` ile DoS saldırıları düzenlenebilir.
+*   **GTP-U (User):** Tünel içi kapsüllenmiş trafik üzerinden Firewall atlatma teknikleri.
 
 ---
 
-## 🌪️ 3. Saldırı Yaşam Döngüsü (Attack Lifecycle)
+## 🤖 3. IoT & M2M Güvenliği (The New Frontier)
 
-Bir telekom saldırısı genellikle şu aşamalardan geçer:
+Nesnelerin İnterneti (IoT), düşük güç tüketimli (LPWA) ağlar üzerinden telekom altyapısına bağlanır.
+*   **NB-IoT & LTE-M:** Bu cihazlar genellikle zayıf kimlik doğrulama mekanizmalarına sahiptir.
+*   **M2M Signaling Storms:** Milyonlarca IoT cihazının aynı anda sinyal vermesiyle (SYN flood benzeri) çekirdek şebeke (MME/HSS) çökertilebilir.
 
-1.  **Keşif (Reconnaissance):** Global Title (GT) taramaları veya açık kaynak istihbaratı ile hedef abonenin IMSI numarasının tespiti.
-2.  **Sızma (Ingress):** IPX/GRX ağları üzerinden veya zayıf yapılandırılmış bir roaming ortağı üzerinden ağa giriş.
-3.  **İstismar (Exploitation):** Manipüle edilmiş MAP/Diameter mesajlarının hedef HLR/HSS ünitesine gönderilmesi.
-4.  **Analiz (Post-Exploitation):** Ele geçirilen verilerin (lokasyon, ses, SMS) dekoding edilmesi.
+---
 
+## 🌪️ 4. Saldırı Yaşam Döngüsü & Fraud Analizi
+
+### 🚨 Saldırı Aşamaları (Attack Flow)
 ```mermaid
 graph TD
     A[IMSI Discovery] --> B[Roaming Access via IPX]
     B --> C{Attack Vector}
     C -->|Location| D[MLC/PSI Attack]
     C -->|Intercept| E[UpdateLocation Hijack]
-    C -->|Data| F[GTP Tunnel Injection]
+    C -->|Fraud| F[Bypass / SIM Box]
     D --> G[Action: Track]
     E --> H[Action: Listen/Record]
-    F --> I[Action: Data Exfiltration]
+    F --> I[Action: Revenue Leakage]
 ```
+
+### 💸 Interconnect Fraud (IF)
+*   **SIM Box Fraud:** Uluslararası aramaları yerel bir SIM üzerinden sonlandırarak ara bağlantı ücretlerinden kaçınma.
+*   **Bypass Fraud (Grey Routes):** Meşru olmayan sinyalleşme yolları üzerinden SMS veya ses trafiği geçirme.
 
 ---
 
-## 🛠️ 4. Otonom Analiz Motoru
+## 🛡️ 5. Savunma Stratejileri & Uyumluluk
+
+### 🚧 Teknik Katmanlar
+1.  **Signaling Firewall (DAA/STP FW):** Mesajların tipine ve kaynağına göre (Cat-1/2/3) filtrelenmesi.
+2.  **Home Routing:** Gerçek IMSI ve lokasyonun dış dünyaya kapatılması.
+3.  **Velocity Check:** Coğrafi olarak imkansız hızların kontrol edilmesi.
+
+### 📋 Global Standartlar Matrisi
+| Kurum | Standart | Fokus |
+| :--- | :--- | :--- |
+| **GSMA** | FS.11 / FS.19 | SS7 & Diameter Security Monitoring |
+| **3GPP** | TS 33.501 | 5G Security Architecture |
+| **NIST** | SP 800-187 | 4G LTE Security Guide |
+| **ENISA** | Signaling Security | EU Telecom Infrastructure Guidelines |
+
+---
+
+## 🛠️ 6. Otonom Analiz Motoru & Lab
 
 Bu depo, bu zafiyetleri tespit eden modüler bir Python motoru içerir:
 - **Merkezi Orkestratör:** Tüm analiz akışını yönetir.
@@ -65,20 +92,12 @@ Bu depo, bu zafiyetleri tespit eden modüler bir Python motoru içerir:
 
 ---
 
-## 🛡️ 5. Savunma Stratejileri
+## 📚 7. Kaynak Arşivi
 
-*   **Signaling Firewall:** Mesajların tipine ve kaynağına göre (Cat-1/2/3) filtrelenmesi.
-*   **Home Routing:** Gerçek IMSI ve lokasyonun dış dünyaya kapatılması.
-*   **Velocity Check:** Bir abonenin 5 dakika içinde hem İstanbul hem de Berlin'den sinyal vermesinin (imkansız hız) engellenmesi.
-
----
-
-## 📚 6. Kaynak Arşivi
-
-*   **GSMA FS.11/FS.19:** Endüstri standardı sinyalleşme güvenlik rehberleri.
-*   **3GPP TS 33.501:** 5G sistem mimarisi güvenlik prosedürleri.
-*   **AdaptiveMobile/Positive Technologies:** Sektör lideri araştırma raporları.
+*   **GSMA Standard Documents** (FS.11, FS.19)
+*   **3GPP Security Specifications** (TS 33.x series)
+*   **AdaptiveMobile & PT Security Reports**
 
 ---
 > [!IMPORTANT]
-> **Etik Uyarı:** Bu materyal yalnızca akademik savunma ve farkındalık amaçlıdır.
+> **Etik Uyarı:** Bu materyal yalnızca akademik araştırma ve siber savunma farkındalığı içindir.
